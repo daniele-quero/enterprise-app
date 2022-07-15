@@ -1,13 +1,74 @@
 {
-    "m_SelectedDeviceId": "",
+    "m_SelectedDeviceId": "18ccee86",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "18ccee86",
+        "name": "com.DefaultCompany.com.unity.template.mobile2D",
+        "processId": 32052,
         "exited": false
     },
     "m_SelectedPriority": 0,
-    "m_KnownPackagesForSerialization": [],
+    "m_KnownPackagesForSerialization": [
+        {
+            "deviceId": "18ccee86",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 32159,
+            "exited": true
+        },
+        {
+            "deviceId": "18ccee86",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 20109,
+            "exited": true
+        },
+        {
+            "deviceId": "18ccee86",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 25615,
+            "exited": true
+        },
+        {
+            "deviceId": "18ccee86",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 26415,
+            "exited": true
+        },
+        {
+            "deviceId": "18ccee86",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 30729,
+            "exited": true
+        },
+        {
+            "deviceId": "18ccee86",
+            "name": "com.miui.home",
+            "processId": 2913,
+            "exited": false
+        },
+        {
+            "deviceId": "18ccee86",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 26986,
+            "exited": false
+        },
+        {
+            "deviceId": "18ccee86",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 480,
+            "exited": false
+        },
+        {
+            "deviceId": "18ccee86",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 2817,
+            "exited": false
+        },
+        {
+            "deviceId": "18ccee86",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 32052,
+            "exited": false
+        }
+    ],
     "m_Tags": {
         "m_Entries": [
             {
@@ -41,9 +102,20 @@
         ]
     },
     "m_MemoryViewerState": {
-        "MemoryWindowHeight": 0.0,
-        "MemoryWindowWidth": 0.0,
-        "MemoryTypeEnabled": [],
+        "MemoryWindowHeight": 300.0,
+        "MemoryWindowWidth": 170.0,
+        "MemoryTypeEnabled": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+        ],
         "MemoryGroup": 2,
         "Behavior": 0
     },

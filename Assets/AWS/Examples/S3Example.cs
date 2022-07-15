@@ -14,14 +14,12 @@
 //
 
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.Runtime;
 using System.IO;
 using System;
-using Amazon.S3.Util;
 using System.Collections.Generic;
 using Amazon.CognitoIdentity;
 using Amazon;
