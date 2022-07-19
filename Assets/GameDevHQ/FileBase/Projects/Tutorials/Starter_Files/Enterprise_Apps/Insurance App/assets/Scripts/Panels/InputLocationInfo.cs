@@ -28,7 +28,9 @@ public class InputLocationInfo : BasePanel, IPanel
     
     public void isErrorCallback(bool isError)
     {
-        Debug.Log("Is error? -> " + isError);
+        if(isError)
+            Debug.Log("Is error? -> " + isError);
+
         errorText.enabled = isError;
     }
 

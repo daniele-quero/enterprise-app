@@ -11,7 +11,7 @@ public class BasePanel : MonoBehaviour
     protected void OnEnable()
     {
         if (InsuranceAppUIManager.Instance.activeCase != null)
-            caseNumber.text = InsuranceAppUIManager.Instance.activeCase.CaseNumber;
+            caseNumber.text = "Case Number: " + InsuranceAppUIManager.Instance.activeCase.CaseNumber;
     }
 
     protected IEnumerator EnableButton()

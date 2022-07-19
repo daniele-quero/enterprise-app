@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour
     {
         //use AWS
         BigInteger number = new BigInteger(Random.Range(0, 10000000000));
-        string casenumber = "CASE NUMBER: " + number.ToString("R").PadLeft(10, '0');
+        string casenumber = (AWSManager.Instance.LastCaseNumber +1).ToString("R").PadLeft(10, '0');
         return casenumber;
     }
 

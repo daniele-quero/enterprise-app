@@ -101,6 +101,8 @@ public class CaseOverview : BasePanel, IPanel
 
     public void ProcessInfo()
     {
-        _cs.Serialize(_aws);
+        string path = _cs.Serialize(_aws);
+        string bucketName = AWSManager.Instance.MainBucketName;
+        AWSManager.Instance.PostObject(path, bucketName);
     }
 }

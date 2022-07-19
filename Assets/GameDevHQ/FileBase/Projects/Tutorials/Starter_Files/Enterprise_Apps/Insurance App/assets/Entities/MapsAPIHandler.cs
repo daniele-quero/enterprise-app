@@ -101,12 +101,17 @@ public class MapsAPIHandler
 
     private void SaveMapToPNG(byte[] bytes)
     {
-        string caseNum = "case_" +
+        string caseNum =
                 (InsuranceAppUIManager.Instance.activeCase != null
                 ? InsuranceAppUIManager.Instance.activeCase.CaseNumber
                 : "NO_CASE");
 
-        mapPath = Application.persistentDataPath + caseNum + "_map.png";
+        string subFolderPath = Application.persistentDataPath + Path.DirectorySeparatorChar + caseNum;
+
+        if (!Directory.Exists(subFolderPath))
+            Directory.CreateDirectory(subFolderPath);
+
+        mapPath = subFolderPath + Path.DirectorySeparatorChar + caseNum + "_map.png";
         File.WriteAllBytes(mapPath, bytes);
     }
     #endregion

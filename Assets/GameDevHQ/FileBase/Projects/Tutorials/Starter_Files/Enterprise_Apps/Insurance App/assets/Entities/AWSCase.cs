@@ -1,4 +1,5 @@
-﻿public class AWSCase : Case
+﻿[System.Serializable]
+public class AWSCase : Case
 {
     private byte[] photo;
     private byte[] locationImage;

@@ -155,7 +155,8 @@ namespace AWSSDK.Examples
                 Bucket = S3BucketName,
                 Key = fileName,
                 InputStream = stream,
-                CannedACL = S3CannedACL.Private
+                CannedACL = S3CannedACL.Private,
+                Region = RegionEndpoint.EUWest3
             };
 
             ResultText.text += "\nMaking HTTP post call";
@@ -169,7 +170,7 @@ namespace AWSSDK.Examples
                 else
                 {
                     ResultText.text += "\nException while posting the result object";
-                    ResultText.text += string.Format("\n receieved error {0}", responseObj.Response.HttpStatusCode.ToString());
+                    ResultText.text += string.Format("\n receieved error {0}", responseObj.Exception);
                 }
             });
         }
