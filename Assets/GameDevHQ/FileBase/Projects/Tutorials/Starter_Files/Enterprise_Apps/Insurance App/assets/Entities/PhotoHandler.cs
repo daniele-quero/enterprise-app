@@ -20,7 +20,7 @@ class PhotoHandler
     {
         _permission = NativeCamera.TakePicture((path) =>
         {
-            Debug.Log("Image path: " + path);
+            Debug.Log($"Photo Handler - Image path: {path}");
             if (path != null)
             {
                 _path = path;
@@ -28,7 +28,7 @@ class PhotoHandler
                 Texture2D photoTexture = NativeCamera.LoadImageAtPath(path, maxSize);
                 if (photoTexture == null)
                 {
-                    Debug.Log("Couldn't load texture from " + path);
+                    Debug.Log($"Photo Handler - Couldn't load texture from {path}");
                     return;
                 }
                 NativeCamera.ImageProperties properties = NativeCamera.GetImageProperties(path);
@@ -42,12 +42,12 @@ class PhotoHandler
             else
             {
                 _path = null;
-                Debug.Log("No path!");
+                Debug.Log($"Photo Handler - No path!");
                 return;
             }
         }, maxSize);
 
-        Debug.Log("Permission result: " + _permission);
+        Debug.Log($"Photo Handler - Permission result: {_permission}");
     }
 
     private static void ApplyToImage(Texture2D photoTexture, NativeCamera.ImageProperties properties, RawImage img) 
@@ -60,13 +60,13 @@ class PhotoHandler
             case NativeCamera.ImageOrientation.Rotate270:
             case NativeCamera.ImageOrientation.Rotate90:
                 {
-                    Debug.Log("Portrait");
+                    Debug.Log($"Photo Handler - Portrait");
                     sd.Set(max*r, max);
                     break;
                 }
             default:
                 {
-                    Debug.Log("Landscape");
+                    Debug.Log($"Photo Handler - Landscape");
                     sd.Set(max, max/r);
                     break;
                 }

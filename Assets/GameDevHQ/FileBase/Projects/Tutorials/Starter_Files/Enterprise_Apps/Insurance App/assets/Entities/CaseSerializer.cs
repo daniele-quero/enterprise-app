@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using Amazon.S3.Model;
+using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
@@ -27,41 +29,70 @@ class CaseSerializer
         return aws;
     }
 
-    public AppCase AwsToApp(AWSCase @case)
+    public AppCase AwsToApp(AWSCase @case, AppCase app)
     {
-        var app = new AppCase(@case.CaseNumber);
+        app.CaseNumber = @case.CaseNumber;
         app.ClientName = @case.ClientName;
         app.Date = @case.Date;
         app.Location = @case.Location;
         app.LocationNotes = @case.LocationNotes;
         app.Mode = @case.Mode;
         app.PhotoNotes = @case.PhotoNotes;
-        //Texture2D loadTexture = NativeCamera.LoadImageAtPath("C:/Users/danio/AppData/LocalLow/DefaultCompany/RainyDay - Insurance Appprova.png");
+        app.LocationImage = InsuranceAppUIManager.Instance.Select(Panels.CaseOverview).GetComponent<CaseOverview>().LocationImage;
+        app.LocationImage.texture = DecodeFromBytes(@case.LocationImage);
+        app.Photo = InsuranceAppUIManager.Instance.Select(Panels.CaseOverview).GetComponent<CaseOverview>().PhotoImage;
+        app.Photo.texture = DecodeFromBytes(@case.Photo);
+        app.Mode = @case.Mode;
         return app;
     }
 
     public string Serialize(AWSCase @case)
     {
+        string path = GetPath(@case);
 
-        string subFolderPath = Application.persistentDataPath + Path.DirectorySeparatorChar + @case.CaseNumber;
-        string path = subFolderPath + Path.DirectorySeparatorChar + @case.CaseNumber + "_casefile.dat";
-
-        if (!Directory.Exists(subFolderPath))
-            Directory.CreateDirectory(subFolderPath);
+        if (!Directory.Exists(GetSubfolder(@case)))
+            Directory.CreateDirectory(GetSubfolder(@case));
 
         FileStream file = File.Create(path);
         _bf.Serialize(file, @case);
+        file.Seek(0, SeekOrigin.Begin);
         file.Close();
         return path;
     }
 
-    public static Texture2D ToTexture2D(Texture texture)
+    public AWSCase Deserialize(MemoryStream ms)
     {
-        return Texture2D.CreateExternalTexture(
-            texture.width,
-            texture.height,
-            TextureFormat.RGBA32,
-            false, true,
-            texture.GetNativeTexturePtr());
+        Debug.Log("Case Serializer - Deserializing");
+
+        AWSCase c = (AWSCase)_bf.Deserialize(ms);
+        c.Mode = CaseMode.Retrieve;
+
+        Debug.Log($"Case Serializer - Done. Test Name is: { c.ClientName}");
+
+        Debug.Log($"Case Serializer - Disposing of the stream ({ms.Length} bytes)");
+        ms.Dispose();
+        return c;
+    }
+
+    public string GetSubfolder(AWSCase @case)
+    {
+        return Application.persistentDataPath + Path.DirectorySeparatorChar + @case.CaseNumber;
+    }
+
+    public string GetPath(AWSCase @case)
+    {
+        return GetSubfolder(@case) + Path.DirectorySeparatorChar + GetFileName(@case.CaseNumber);
+    }
+
+    public string GetFileName(string caseNum)
+    {
+        return caseNum + "_casefile.dat";
+    }
+
+    public static Texture2D DecodeFromBytes(byte[] bytes)
+    {
+        Texture2D t = new Texture2D(2, 2);
+        t.LoadImage(bytes);
+        return t;
     }
 }

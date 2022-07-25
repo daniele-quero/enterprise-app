@@ -5,15 +5,17 @@ using System.Collections;
 
 public class InputPhoto : BasePanel, IPanel
 {
-    public RawImage photoImage;
-    public TMP_InputField photoNotesInput;
+    [SerializeField]
+    private RawImage _photoImage;
+    [SerializeField]
+    private TMP_InputField _photoNotesInput;
     private string _photoPath;
     private bool _photoTaken = false;
 
     private void Awake()
     {
-        continueButton.onClick.AddListener(() => ProcessInfo());
-        continueButton.onClick.AddListener(() => InsuranceAppUIManager.Instance.NavigateTo(Panels.CaseOverview));
+        ContinueButton.onClick.AddListener(() => ProcessInfo());
+        ContinueButton.onClick.AddListener(() => InsuranceAppUIManager.Instance.NavigateTo(Panels.CaseOverview));
     }
 
     private new void OnEnable()
@@ -26,7 +28,7 @@ public class InputPhoto : BasePanel, IPanel
 
     private void TakePhoto()
     {
-        PhotoHandler.TakePicture(-1, photoImage);
+        PhotoHandler.TakePicture(-1, _photoImage);
         _photoPath = PhotoHandler.Path;
         _photoTaken = _photoPath != null;
     }
@@ -34,15 +36,15 @@ public class InputPhoto : BasePanel, IPanel
     private new IEnumerator EnableButton()
     {
         base.OnEnable();
-        continueButton.interactable = false;
+        ContinueButton.interactable = false;
         yield return new WaitUntil(() => _photoTaken);
-        continueButton.interactable = true;
+        ContinueButton.interactable = true;
     }
 
     public void ProcessInfo()
     {
-        InsuranceAppUIManager.Instance.activeCase.PhotoNotes = photoNotesInput.text;
-        InsuranceAppUIManager.Instance.activeCase.Photo = photoImage;
+        InsuranceAppUIManager.Instance.activeCase.PhotoNotes = _photoNotesInput.text;
+        InsuranceAppUIManager.Instance.activeCase.Photo = _photoImage;
         InsuranceAppUIManager.Instance.activeCase.PhotoPath = _photoPath;
     }
 

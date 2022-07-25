@@ -7,14 +7,16 @@ using UnityEngine;
 
 public class InputClientInfo : BasePanel, IPanel
 {
-    public TMP_InputField firstNameInput;
-    public TMP_InputField lastNameInput;
+    [SerializeField]
+    private TMP_InputField _firstNameInput;
+    [SerializeField]
+    private TMP_InputField _lastNameInput;
     
 
     private void Awake()
     {
-        continueButton.onClick.AddListener(() => ProcessInfo());
-        continueButton.onClick.AddListener(() => InsuranceAppUIManager.Instance.NavigateTo(Panels.InputLocation));
+        ContinueButton.onClick.AddListener(() => ProcessInfo());
+        ContinueButton.onClick.AddListener(() => InsuranceAppUIManager.Instance.NavigateTo(Panels.InputLocation));
     }
 
     private new void OnEnable()
@@ -28,19 +30,19 @@ public class InputClientInfo : BasePanel, IPanel
     private new IEnumerator EnableButton()
     {
         base.OnEnable();
-        continueButton.interactable = false;
+        ContinueButton.interactable = false;
         yield return new WaitUntil(() => CheckFields());
-        continueButton.interactable = true;
+        ContinueButton.interactable = true;
     }
 
     private bool CheckFields()
     {
-        return !String.IsNullOrWhiteSpace(firstNameInput.text) && !String.IsNullOrWhiteSpace(lastNameInput.text);
+        return !String.IsNullOrWhiteSpace(_firstNameInput.text) && !String.IsNullOrWhiteSpace(_lastNameInput.text);
     }
 
     public void ProcessInfo()
     {
-        InsuranceAppUIManager.Instance.activeCase.ClientName = firstNameInput.text + " " + lastNameInput.text;
+        InsuranceAppUIManager.Instance.activeCase.ClientName = _firstNameInput.text + " " + _lastNameInput.text;
         InsuranceAppUIManager.Instance.activeCase.Date = DateTime.Now.ToString();
         InsuranceAppUIManager.Instance.activeCase.Mode = CaseMode.Insert;
     }

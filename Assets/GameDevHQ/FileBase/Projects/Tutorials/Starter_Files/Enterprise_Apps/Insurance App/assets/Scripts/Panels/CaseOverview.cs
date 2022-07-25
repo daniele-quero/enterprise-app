@@ -6,29 +6,39 @@ using UnityEngine.UI;
 
 public class CaseOverview : BasePanel, IPanel
 {
-    public TextMeshProUGUI dateText;
-    public TextMeshProUGUI locationText;
-    public TextMeshProUGUI locationNotesText;
-    public TextMeshProUGUI nameText;
-    public RawImage photoImage;
-    public RawImage locationImage;
-    public Button button;
-    public TextMeshProUGUI buttonText;
-    public TextMeshProUGUI photoNotesText;
-    public TextMeshProUGUI photoNotesTitle;
-    private Vector3 photoPos;
-    private Vector3 photoNotesTitlePos;
-    private Vector3 photoNotesPos;
+    [SerializeField]
+    private TextMeshProUGUI _dateText,
+      _locationText,
+      _locationNotesText,
+      _nameText,
+      _buttonText,
+      _photoNotesText,
+      _photoNotesTitle;
+
+    [SerializeField]
+    private RawImage _photoImage,
+      _locationImage;
+
+    [SerializeField]
+    private Button _button;
+
+    private Vector3 _photoPos,
+      _photoNotesTitlePos,
+      _photoNotesPos;
+
     public Vector3 shfit;
 
     private AWSCase _aws = null;
     CaseSerializer _cs = null;
 
+    public RawImage PhotoImage { get => _photoImage; }
+    public RawImage LocationImage { get => _locationImage; }
+
     private void Awake()
     {
-        photoPos = photoImage.rectTransform.localPosition;
-        photoNotesTitlePos = photoNotesTitle.rectTransform.localPosition;
-        photoNotesPos = photoNotesText.rectTransform.localPosition;
+        _photoPos = _photoImage.rectTransform.localPosition;
+        _photoNotesTitlePos = _photoNotesTitle.rectTransform.localPosition;
+        _photoNotesPos = _photoNotesText.rectTransform.localPosition;
     }
 
     private new void OnEnable()
@@ -47,31 +57,31 @@ public class CaseOverview : BasePanel, IPanel
     {
         if (InsuranceAppUIManager.Instance.activeCase != null)
         {
-            dateText.text = InsuranceAppUIManager.Instance.activeCase.Date;
-            locationText.text = InsuranceAppUIManager.Instance.activeCase.Location;
-            locationNotesText.text = InsuranceAppUIManager.Instance.activeCase.LocationNotes;
-            nameText.text = InsuranceAppUIManager.Instance.activeCase.ClientName;
-            photoNotesText.text = InsuranceAppUIManager.Instance.activeCase.PhotoNotes;
-            photoImage.rectTransform.sizeDelta = InsuranceAppUIManager.Instance.activeCase.Photo.rectTransform.sizeDelta;
-            photoImage.texture = InsuranceAppUIManager.Instance.activeCase.Photo.texture;
-            locationImage.texture = InsuranceAppUIManager.Instance.activeCase.LocationImage.texture;
-            AdaptPhoto();               
+            _dateText.text = InsuranceAppUIManager.Instance.activeCase.Date;
+            _locationText.text = InsuranceAppUIManager.Instance.activeCase.Location;
+            _locationNotesText.text = InsuranceAppUIManager.Instance.activeCase.LocationNotes;
+            _nameText.text = InsuranceAppUIManager.Instance.activeCase.ClientName;
+            _photoNotesText.text = InsuranceAppUIManager.Instance.activeCase.PhotoNotes;
+            _photoImage.rectTransform.sizeDelta = InsuranceAppUIManager.Instance.activeCase.Photo.rectTransform.sizeDelta;
+            _photoImage.texture = InsuranceAppUIManager.Instance.activeCase.Photo.texture;
+            _locationImage.texture = InsuranceAppUIManager.Instance.activeCase.LocationImage.texture;
+            AdaptPhoto();
         }
     }
 
     private void AdaptPhoto()
     {
-        if (photoImage.rectTransform.sizeDelta.y > photoImage.rectTransform.sizeDelta.x)
+        if (_photoImage.rectTransform.sizeDelta.y > _photoImage.rectTransform.sizeDelta.x)
         {
-            photoImage.rectTransform.localPosition = photoPos + shfit;
-            photoNotesTitle.rectTransform.localPosition = photoNotesTitlePos + shfit * 1.8f;
-            photoNotesText.rectTransform.localPosition = photoNotesPos + shfit * 1.8f;
+            _photoImage.rectTransform.localPosition = _photoPos + shfit;
+            _photoNotesTitle.rectTransform.localPosition = _photoNotesTitlePos + shfit * 1.8f;
+            _photoNotesText.rectTransform.localPosition = _photoNotesPos + shfit * 1.8f;
         }
         else
         {
-            photoImage.rectTransform.localPosition = photoPos;
-            photoNotesTitle.rectTransform.localPosition = photoNotesTitlePos;
-            photoNotesText.rectTransform.localPosition = photoNotesPos;
+            _photoImage.rectTransform.localPosition = _photoPos;
+            _photoNotesTitle.rectTransform.localPosition = _photoNotesTitlePos;
+            _photoNotesText.rectTransform.localPosition = _photoNotesPos;
         }
     }
     #endregion
@@ -79,30 +89,36 @@ public class CaseOverview : BasePanel, IPanel
     #region Button
     private void SetSubmitButton()
     {
-        buttonText.text = "Submit";
-        button.onClick.AddListener(() => ProcessInfo());
+        _buttonText.text = "Submit";
+        _button.onClick.AddListener(() => ProcessInfo());
         StartCoroutine(PrepareForSubmition());
     }
 
     private IEnumerator PrepareForSubmition()
     {
-        button.enabled = false;
+        _button.enabled = false;
         _cs = new CaseSerializer();
         yield return new WaitUntil(() => (_aws = _cs.AppToAws(InsuranceAppUIManager.Instance.activeCase)) != null);
-        button.enabled = true;
+        _button.enabled = true;
     }
 
     private void SetBackButton()
     {
-        buttonText.text = "back";
-        button.onClick.AddListener(() => InsuranceAppUIManager.Instance.NavigateTo(Panels.MainMenu));
+        _buttonText.text = "back";
+        _button.onClick.AddListener(() => InsuranceAppUIManager.Instance.NavigateTo(Panels.MainMenu));
     }
-    #endregion
 
     public void ProcessInfo()
     {
         string path = _cs.Serialize(_aws);
         string bucketName = AWSManager.Instance.MainBucketName;
-        AWSManager.Instance.PostObject(path, bucketName);
+        AWSManager.Instance.PostObject(path, bucketName, BackToMainMenu);
     }
+
+    private void BackToMainMenu()
+    {
+    
+        InsuranceAppUIManager.Instance.NavigateTo(Panels.MainMenu);
+    }
+    #endregion
 }

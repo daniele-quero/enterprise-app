@@ -13,6 +13,9 @@ public enum Panels
     CaseOverview,
     MainMenu,
     Frame,
-    Scroll
+    OverviewScroll,
+    SelectScroll,
+    FindCase,
+    SelectCase
 }
 

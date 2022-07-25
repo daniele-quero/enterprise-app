@@ -18,6 +18,10 @@ public class InsuranceAppUIManager : MonoBehaviour
         }
     }
 
+    public List<AWSCase> StoredCases { get => _storedCases; set => _storedCases = value; }
+    public List<GameObject> Panels { get => _panels; set => _panels = value; }
+    public List<Panels> History { get => _history; set => _history = value; }
+
     private void Awake()
     {
         _instance = this;
@@ -26,28 +30,42 @@ public class InsuranceAppUIManager : MonoBehaviour
 
     public AppCase activeCase;
 
-    public List<AppCase> storedCases = new List<AppCase>();
+    [SerializeField]
+    private List<AWSCase> _storedCases = new List<AWSCase>();
+    [SerializeField]
+    private List<Panels> _history = new List<Panels>() { global::Panels.MainMenu };
+    [SerializeField]
+    private List<GameObject> _panels = new List<GameObject>();
 
-    public List<GameObject> panels = new List<GameObject>();
-
-    public void NavigateTo(Panels panel)
+    public void NavigateTo(Panels panel, bool browsingHistory)
     {
         Select(panel).SetActive(true);
 
         SelectAllBut(panel).ForEach(p => p.SetActive(false));
 
-        if(Panels.MainMenu.Equals(panel))
-            Select(Panels.Frame).SetActive(false);
+        if (global::Panels.MainMenu.Equals(panel))
+            Select(global::Panels.Frame).SetActive(false);
         else
-            Select(Panels.Frame).SetActive(true);
+            Select(global::Panels.Frame).SetActive(true);
 
-        if (Panels.CaseOverview.Equals(panel))
-            Select(Panels.Scroll).SetActive(true);
+        if (global::Panels.CaseOverview.Equals(panel))
+            Select(global::Panels.OverviewScroll).SetActive(true);
+        else if (global::Panels.SelectCase.Equals(panel))
+            Select(global::Panels.SelectScroll).SetActive(true);
+
+        if (!browsingHistory)
+            History.Add(panel);
+
     }
 
-    private GameObject Select(Panels panel)
+    public void NavigateTo(Panels panel)
     {
-        return panels
+        NavigateTo(panel, false);
+    }
+
+    public GameObject Select(Panels panel)
+    {
+        return Panels
             .Select(p => p)
             .Where(p1 => p1.name.Contains(panel.ToString()))
             .First();
@@ -55,7 +73,7 @@ public class InsuranceAppUIManager : MonoBehaviour
 
     private List<GameObject> SelectAllBut(Panels panel)
     {
-        return panels
+        return Panels
             .Select(p => p)
             .Where(p1 => !p1.name.Contains(panel.ToString()))
             .ToList();

@@ -93,7 +93,7 @@ public class MapsAPIHandler
         else
         {
             _isError = true;
-            Debug.LogWarning("DownloadMap() timed out!");
+            Debug.LogWarning($"Maps Handler - DownloadMap() timed out!");
         }
 
         errorCallback(_isError);
@@ -143,7 +143,7 @@ public class MapsAPIHandler
         else
         {
             _isError = true;
-            Debug.LogWarning("GetLocation() timed out!");
+            Debug.LogWarning($"Maps Handler - GetLocation() timed out!");
         }
 
         errorCallback(_isError);
@@ -177,7 +177,7 @@ public class MapsAPIHandler
         else
         {
             _isError = true;
-            Debug.LogWarning("GetLocation() timed out!");
+            Debug.LogWarning($"Maps Handler - GetLocation() timed out!");
         }
 
         if (hasResponse)
@@ -214,7 +214,7 @@ public class MapsAPIHandler
 #endif
         if (!Input.location.isEnabledByUser)
         {
-            Debug.LogWarning("Location Services are disabled.");
+            Debug.LogWarning($"Maps Handler - Location Services are disabled.");
             yield break;
         }
 
@@ -228,14 +228,14 @@ public class MapsAPIHandler
             case LocationServiceStatus.Initializing:
                 {
                     _isError = true;
-                    Debug.LogWarning("GetGPSCoordinates() timed out!");
+                    Debug.LogWarning($"Maps Handler - GetGPSCoordinates() timed out!");
                     yield break;
                 }
             case LocationServiceStatus.Failed:
             case LocationServiceStatus.Stopped:
                 {
                     _isError = true;
-                    Debug.LogWarning("GetGPSCoordinates() failed to retreive coordinates!");
+                    Debug.LogWarning($"Maps Handler - GetGPSCoordinates() failed to retreive coordinates!");
                     yield break;
                 }
             default:
