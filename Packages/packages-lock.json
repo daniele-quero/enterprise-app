@@ -86,7 +86,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.adaptiveperformance": {
-      "version": "4.0.1",
+      "version": "3.0.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -96,11 +96,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.adaptiveperformance.samsung.android": {
-      "version": "4.0.1",
+      "version": "3.0.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.adaptiveperformance": "4.0.1"
+        "com.unity.adaptiveperformance": "3.0.3"
       },
       "url": "https://packages.unity.com"
     },

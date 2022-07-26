@@ -52,13 +52,18 @@ public class AWSManager : MonoBehaviour
 
     private void AWSInit()
     {
+        Debug.Log($"AWS Manager - Init");
         UnityInitializer.AttachToGameObject(this.gameObject);
+        Debug.Log($"AWS Manager - UnityInitializer attached");
         AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
+        Debug.Log($"AWS Manager - Setting HttpClient");
         CognitoAWSCredentials credentials = new CognitoAWSCredentials(
             "eu-west-1:c895b3bb-3e74-45d8-913b-ac354985936d", // Identity pool ID
             RegionEndpoint.EUWest1 // Region
             );
+        Debug.Log($"AWS Manager - Setting Credentials: {credentials}");
         _S3Client = new AmazonS3Client(credentials, RegionEndpoint.EUWest1);
+        Debug.Log($"AWS Manager - Setting Client {_S3Client}");
     }
     #endregion
 
